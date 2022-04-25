@@ -1,0 +1,38 @@
+// TODO: Dê uma olhada no projeto oficial do módulo 06 (Expressões Regulares - RegExp) para implementar este arquivo.
+
+import { evaluateRegex } from './util.js'
+export class Project {
+    constructor({ titulo, link, autor, etapa, ementa, indexorama }) {
+
+        // utilizando apelidos ensinado no modulo 09
+        const projectNumberAndYear = evaluateRegex(/(?<=Projeto de lei )(?<lei>\d*)\/(?<ano>\d*)/gm)
+        
+        /* testando direto o id virá id: [
+          '1322563',
+          '1322563',
+          index: 39,
+          input: 'http://www.al.sp.gov.br/propositura?id=1322563',
+          groups: undefined
+        ] */
+        const projectId = evaluateRegex(/(?<=id=)(\d*)/gm)
+        // pegar as virgulas
+        const comma = evaluateRegex(/,/gm)
+
+        ///(?<id>id=)(\d*)(;)(?<autor>(\w{3,})+\s+([\w\s]{3,}))/gm // preciso rever depois se realmente era possível utilziar essa extratégia
+        const authorsName = 
+
+        // ====== tratando os valores ======
+
+        // pega a lei e o ano de projectNumbers, passando o exec no titulo pegamo os valores necessários
+        const { groups: { lei, ano } } = projectNumberAndYear.exec(titulo)
+        // O método match() retorna uma correspondência entre uma string com uma expressão regular.
+        const id = link.match(projectId)[0] // como retorna um array precisamos do item na primeira posição
+
+        
+        
+
+        this.numero = lei
+        this.ano = ano
+        this.id = id
+    }
+}

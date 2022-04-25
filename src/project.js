@@ -4,33 +4,36 @@ import { evaluateRegex } from './util.js'
 export class Project {
     constructor({ titulo, link, autor, etapa, ementa, indexorama }) {
 
-        // utilizando apelidos ensinado no modulo 09
         const projectNumberAndYear = evaluateRegex(/(?<=Projeto de lei )(?<lei>\d*)\/(?<ano>\d*)/gm)
-        
-        /* testando direto o id virá id: [
-          '1322563',
-          '1322563',
-          index: 39,
-          input: 'http://www.al.sp.gov.br/propositura?id=1322563',
-          groups: undefined
-        ] */
         const projectId = evaluateRegex(/(?<=id=)(\d*)/gm)
-        const authorsName = evaluateRegex()
+        const authorsName = autor.split(',').map(autor => {
+            let nomeCompleto = autor.trim().split(" ")
+            if(nomeCompleto.length > 1) {
+                return {
+                    nome: `${nomeCompleto[0]} ${nomeCompleto[nomeCompleto.length -1]}`
+                }
+            }
+            return {
+                nome: nomeCompleto[0]
+            }
+        })
+
+        const indexo = indexorama.split(',').map(index => {
+            let indexoramaArr = index.trim()
+            return indexoramaArr
+        })
 
 
-
-        // ====== tratando os valores ======
-
-        // pega a lei e o ano de projectNumbers, passando o exec no titulo pegamo os valores necessários
         const { groups: { lei, ano } } = projectNumberAndYear.exec(titulo)
-        // O método match() retorna uma correspondência entre uma string com uma expressão regular.
-        const id = link.match(projectId)[0] // como retorna um array precisamos do item na primeira posição
-
-        
-        
+        const id = link.match(projectId)[0] 
 
         this.numero = lei
         this.ano = ano
-        this.id = id
+        this.id = id,
+        this.url = link
+        this.autores = authorsName
+        this.etapa = etapa
+        this.ementa = ementa
+        this.indexorama = indexo
     }
 }
