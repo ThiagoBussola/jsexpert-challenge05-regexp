@@ -5,10 +5,14 @@ export class TextProcessorFacade {
         this.#textProcessorFluentAPI = new TextProcessorFluentAPI(text)
     }
 
-    getPeopleFromPDF() {
+    getProjectsFromCSV() {
         return this.#textProcessorFluentAPI
-            .divideTextInColumns()
-            .removeEmptyCharacters()
-            .build()
+           .extractHeaders()
+           .extractContent()
+           .splitValues()
+           .removeEmptyCharacters()
+           .mapRawObjects()
+           .mapProjects()
+           .build()
     }
 }
